@@ -1,6 +1,7 @@
-import './bootstrap';
+import "./bootstrap";
+import "remixicon/fonts/remixicon.css";
 
-import Alpine from 'alpinejs';
+import Alpine from "alpinejs";
 
 window.Alpine = Alpine;
 
