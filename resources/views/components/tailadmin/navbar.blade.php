@@ -10,10 +10,6 @@
     {{-- Breadcrumb --}}
     <ul class="flex items-center ml-4 text-sm">
         @foreach ($breadcrumbs as $index => $breadcrumb)
-            @if ($index > 0)
-                <li class="mr-2 font-medium text-gray-600">/</li>
-            @endif
-
             @if (isset($breadcrumb['url']))
                 <li class="mr-2">
                     <a href="{{ $breadcrumb['url'] }}" class="font-medium text-gray-400 hover:text-gray-600">
@@ -27,129 +23,12 @@
         @endforeach
     </ul>
 
-    <ul class="flex items-center ml-auto">
+    <ul class="flex items-center p-2 ml-auto">
         <button id="toggleDarkMode"
-            class="px-2 py-4 font-medium transition duration-300 dark:bg-gray-900 dark:text-white hover:text-green-500">
-            ☀️ Toggle Dark Mode
+            class="flex items-center justify-center w-8 h-8 text-gray-400 rounded dropdown-toggle hover:bg-gray-50 hover:text-gray-600">
+            <i class="ri-moon-line"></i>
         </button>
-        <li class="mr-1 dropdown">
-            <button type="button"
-                class="flex items-center justify-center w-8 h-8 text-gray-400 rounded dropdown-toggle hover:bg-gray-50 hover:text-gray-600">
-                <i class="ri-search-line"></i>
-            </button>
-            <div
-                class="z-30 hidden w-full max-w-xs bg-white border border-gray-100 rounded-md shadow-md dropdown-menu shadow-black/5">
-                <form action="" class="p-4 border-b border-b-gray-100">
-                    <div class="relative w-full">
-                        <input type="text"
-                            class="w-full py-2 pl-10 pr-4 text-sm border border-gray-100 rounded-md outline-none bg-gray-50 focus:border-blue-500"
-                            placeholder="Search...">
-                        <i class="absolute text-gray-400 -translate-y-1/2 ri-search-line top-1/2 left-4"></i>
-                    </div>
-                </form>
-                <div class="mt-3 mb-2">
-                    <div class="text-[13px] font-medium text-gray-400 ml-4 mb-2">Recently</div>
-                    <ul class="overflow-y-auto max-h-64">
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-50 group">
-                                <img src="https://placehold.co/32x32" alt=""
-                                    class="block object-cover w-8 h-8 align-middle rounded">
-                                <div class="ml-2">
-                                    <div
-                                        class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
-                                        Create landing page</div>
-                                    <div class="text-[11px] text-gray-400">$345</div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </li>
+
         <li class="dropdown">
             <button type="button"
                 class="flex items-center justify-center w-8 h-8 text-gray-400 rounded dropdown-toggle hover:bg-gray-50 hover:text-gray-600">
@@ -298,17 +177,21 @@
             </button>
             <ul
                 class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
-                <li>
-                    <a href="#"
-                        class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Profile</a>
+                <li class="flex">
+                    <x-dropdown-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-dropdown-link>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Settings</a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Logout</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                            {{ __('Logout') }}
+                        </x-dropdown-link>
+                    </form>
                 </li>
             </ul>
         </li>

@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -14,12 +15,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Awaludin', // Ganti dengan nama yang diinginkan
-            'email' => 'awal72304@gmail.com',
-            'email_verified_at' => now(), // Ganti dengan email yang diinginkan
-            'password' => Hash::make('Admin#123'), // Ganti dengan password yang diinginkan
-            'role' => 'cashier', // Pastikan ada kolom role jika Anda menggunakan role
+        DB::table('users')->insert([
+            [
+                'name' => 'Owner Kedai',
+                'email' => 'owner@kedai.com',
+                'password' => Hash::make('password123'),
+                'role' => 'owner',
+                'remember_token' => null,
+            ],
+            [
+                'name' => 'Kasir Kedai',
+                'email' => 'kasir@kedai.com',
+                'password' => Hash::make('password123'),
+                'role' => 'kasir',
+                'remember_token' => null,
+            ],
         ]);
     }
 }

@@ -11,7 +11,9 @@ class Payment extends Model
         'metode_pembayaran',
         'status_pembayaran',
         'total_bayar',
-        'waktu_bayar'
+        'waktu_bayar',
+        'external_id',
+        'checkout_url',
     ];
 
     public function order()

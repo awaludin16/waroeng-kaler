@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('meja_id')->constrained('tables')->onDelete('cascade');
             $table->string('nama_pelanggan');
             $table->dateTime('tanggal_pesanan');
-            $table->decimal('total_harga', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'process', 'finished'])->default('Pending');
+            $table->bigInteger('total_harga');
+            $table->enum('status', ['pending', 'process', 'finished'])->default('pending');
             $table->timestamps();
         });
     }

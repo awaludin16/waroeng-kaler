@@ -17,7 +17,7 @@ class MenuController extends Controller
     {
         $menus = Menu::with('category')->latest()->paginate(10);
 
-        return view('kasir.menu.index', compact('menus'));
+        return view('kasir.menus.index', compact('menus'));
     }
 
     /**
@@ -26,7 +26,7 @@ class MenuController extends Controller
     public function create()
     {
         $kategoris = Category::all();
-        return view('kasir.menu.create', compact('kategoris'));
+        return view('kasir.menus.create', compact('kategoris'));
     }
 
     /**
@@ -34,21 +34,27 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $validated = $request->validate([
-            'kategori_id' => 'required|exists:kategoris,kategori_id',
-            'nama_menu' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:categories,id',
+            'nama_menu' => 'required|string|max:255|min:5',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('menus', 'public');
+            $file = $request->file('gambar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('menu-images', $filename, 'public');
+
+            // Simpan hanya nama filenya saja, tanpa folder
+            $validated['gambar'] = $filename;
         }
 
         Menu::create($validated);
 
-        return redirect()->route('menu.index')->with('success', 'Menu berhasil ditambahkan!');
+        return redirect()->route('menus.index')->with('success', 'Menu berhasil ditambahkan!');
     }
 
     /**
@@ -56,7 +62,7 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        return view('kasir.menu.show', compact('menu'));
+        return view('kasir.menus.show', compact('menu'));
     }
 
     /**
@@ -65,7 +71,7 @@ class MenuController extends Controller
     public function edit(Request $request, Menu $menu)
     {
         $kategoris = Category::all();
-        return view('kasir.menu.edit', compact('menu', 'kategoris'));
+        return view('kasir.menus.edit', compact('menu', 'kategoris'));
     }
 
     /**
@@ -74,23 +80,29 @@ class MenuController extends Controller
     public function update(Request $request, Menu $menu)
     {
         $validated = $request->validate([
-            'kategori_id' => 'required|exists:kategoris,kategori_id',
-            'nama_menu' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:categories,id',
+            'nama_menu' => 'required|string|max:255|min:5',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('gambar')) {
-            if ($menu->gambar) {
-                Storage::disk('public')->delete($menu->gambar);
+            // Hapus gambar lama jika ada
+            if ($menu->gambar && Storage::disk('public')->exists('menu-images/' . $menu->gambar)) {
+                Storage::disk('public')->delete('menu-images/' . $menu->gambar);
             }
-            $validated['gambar'] = $request->file('gambar')->store('menus', 'public');
+
+            // Upload gambar baru dan simpan nama filenya saja
+            $file = $request->file('gambar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('menu-images', $filename, 'public');
+            $validated['gambar'] = $filename;
         }
 
         $menu->update($validated);
 
-        return redirect()->route('menu.index')->with('success', 'Menu berhasil diperbarui!');
+        return redirect()->route('menus.index')->with('success', 'Menu berhasil diperbarui!');
     }
 
     /**
@@ -104,6 +116,6 @@ class MenuController extends Controller
 
         $menu->delete();
 
-        return redirect()->route('menu.index')->with('success', 'Menu berhasil dihapus!');
+        return redirect()->route('menus.index')->with('success', 'Menu berhasil dihapus!');
     }
 }

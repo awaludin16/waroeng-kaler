@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pesanan_id')->constrained('orders')->onDelete('cascade');
             $table->enum('metode_pembayaran', ['cash', 'QRIS', 'Debit']);
-            $table->enum('status_pembayaran', ['belum bayar', 'lunas'])->default('belum bayar'); // atau enum
-            $table->decimal('total_bayar', 10, 2);
+            $table->enum('status_pembayaran', ['pending', 'paid'])->default('pending'); // atau enum
+            $table->bigInteger('total_bayar');
             $table->dateTime('waktu_bayar')->nullable();
             $table->timestamps();
         });

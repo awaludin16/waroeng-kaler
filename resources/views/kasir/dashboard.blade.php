@@ -1,6 +1,6 @@
 <x-admin-layout>
     <x-slot name="navbar">
-        <x-tailadmin.navbar :breadcrumbs="[['label' => 'Dashboard']]" />
+        <x-tailadmin.navbar :breadcrumbs="[['label' => 'dashboard']]" />
     </x-slot>
 
     {{-- card stats --}}

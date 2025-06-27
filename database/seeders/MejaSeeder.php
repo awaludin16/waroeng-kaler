@@ -15,7 +15,7 @@ class MejaSeeder extends Seeder
     {
         for ($i = 1; $i <= 5; $i++) {
             TableCafe::create([
-                'nomor_meja' => 'Meja ' . $i,
+                'nomor_meja' => $i,
                 'qr_code' => 'qrcode_meja_' . $i,
             ]);
         }
