@@ -9,9 +9,9 @@ use App\Models\TableCafe as Meja;
 
 class MenuController extends Controller
 {
-    public function index(Meja $meja)
+    public function index($nomor_meja)
     {
-        session(['nomor_meja' => $meja->nomor_meja]); // simpan ke session
+        $meja = Meja::where('nomor_meja', $nomor_meja)->first();
 
         if (!$meja) {
             abort(403, 'Nomor meja tidak ditemukan.');
@@ -26,7 +26,8 @@ class MenuController extends Controller
             })->get();
         }
 
-        $cartCount = collect(session('cart'))->sum('quantity') ?? 0;
+        $cartKey = "cart_meja_{$nomor_meja}";
+        $cartCount = collect(session($cartKey))->sum('quantity') ?? 0;
 
         return view('pelanggan.menu', compact('menusByCategory', 'meja', 'cartCount', 'categories'));
     }

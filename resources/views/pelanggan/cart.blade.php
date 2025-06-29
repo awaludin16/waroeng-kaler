@@ -3,7 +3,7 @@
 
     <div class="fixed left-0 right-0 z-50 mx-auto bg-white shadow-sm -top-1">
         <div class="flex items-center">
-            <a href="{{ route('pelanggan.menu', session('nomor_meja')) }}" class="px-4 pr-3">
+            <a href="{{ route('pelanggan.menu', $nomor_meja) }}" class="px-4 pr-3">
                 <i class="my-auto text-2xl ri-arrow-left-line"></i>
             </a>
             <header class="p-4">
@@ -16,12 +16,12 @@
         <div class="max-w-3xl mx-auto">
 
             @php
-                $cart = session('cart', []);
+                $cart = session("cart_$nomor_meja", []);
             @endphp
 
             @if (count($cart) > 0)
                 <div class="mt-18">
-                    <form method="POST" action="{{ url('cart') }}">
+                    <form method="POST" action="{{ route('cart.update', $nomor_meja) }}">
                         <ul class="p-4 mb-32 space-y-4 bg-white cart-item">
                             @csrf
                             @foreach ($cart as $id => $item)
@@ -84,7 +84,7 @@
                                 {{ number_format(array_sum(array_map(fn($i) => $i['price'] * $i['quantity'], $cart)), 0, ',', '.') }}</span>
                         </p>
                         <div class="flex items-center justify-end">
-                            <a href="{{ route('order') }}"
+                            <a href="{{ route('order', $nomor_meja) }}"
                                 class="block px-5 py-3 font-medium text-gray-100 transition rounded-lg bg-amber-500 hover:bg-amber-600 hover:shadow-lg">
                                 Checkout(<span class="count-items ">{{ count($cart) }}</span>)
                             </a>
@@ -107,7 +107,7 @@
                 const id = button.dataset.id;
                 const action = button.dataset.action;
 
-                fetch('{{ route('cart.update') }}', {
+                fetch('{{ route('cart.update', $nomor_meja) }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

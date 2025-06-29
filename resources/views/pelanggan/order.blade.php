@@ -3,7 +3,7 @@
 
     <div class="fixed left-0 right-0 z-50 mx-auto bg-white shadow-sm -top-1">
         <div class="flex items-center">
-            <a href="{{ route('cart.index') }}" class="px-4 pr-3">
+            <a href="{{ route('cart.index', $meja->nomor_meja) }}" class="px-4 pr-3">
                 <i class="my-auto text-2xl ri-arrow-left-line"></i>
             </a>
             <header class="p-4">
@@ -53,7 +53,7 @@
         </div>
 
         {{-- form --}}
-        <form method="POST" action="{{ route('order') }}">
+        <form method="POST" action="{{ route('order', $meja->nomor_meja) }}">
             @csrf
 
             {{-- nama pelanggan input --}}

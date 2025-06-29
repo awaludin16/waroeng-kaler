@@ -90,7 +90,7 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search" required>
             </div>
-            <a href="{{ route('cart.index') }}" id="cart" data-totalitems="{{ $cartCount }}"
+            <a href="{{ route('cart.index', $meja->nomor_meja) }}" id="cart" data-totalitems="{{ $cartCount }}"
                 class="{{ $cartCount ? 'cart' : '' }} "
                 class="mx-4 font-medium rounded-lg cursor-pointer text-slate-700 hover:text-slate-500"><i
                     class="my-auto text-3xl ri-shopping-cart-2-line"></i></a>
@@ -202,7 +202,7 @@
 
 
         function addToCart(menuId) {
-            fetch(`/cart/add/${menuId}`, {
+            fetch(`/cart/add/{{ $meja->nomor_meja }}/${menuId}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',

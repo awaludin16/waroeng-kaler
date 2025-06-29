@@ -5,14 +5,13 @@ use App\Http\Controllers\Pelanggan;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pelanggan\MenuController as PelangganMenuController;
-use App\Http\Controllers\Pelanggan\OrderController;
 use App\Http\Controllers\Pelanggan\PaymentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\TableCafe as Meja;
 
 Route::get('/', function () {
     $meja = Meja::inRandomOrder()->first(); // random nomor meja
-
+    // session()->forget(['cart', 'cart_2', 'cart_3']);
     // $meja = Meja::query()->first(); // data meja
     return redirect()->route('pelanggan.menu', $meja->nomor_meja);
 });
@@ -20,7 +19,6 @@ Route::get('/', function () {
 Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,24 +40,23 @@ Route::middleware('auth')->group(function () {
 
     Route::get('user', [Kasir\UserController::class, 'index'])->name('user.index');
 });
+//
+//
+//
+//##***    Pelanggan    ***##//
 
-// Pelanggan
 // Halaman menu berdasarkan QR (meja)
-Route::get('/menu/{meja:nomor_meja}', [PelangganMenuController::class, 'index'])->name('pelanggan.menu');
+Route::get('/menu/{nomor_meja}', [PelangganMenuController::class, 'index'])->name('pelanggan.menu');
 
-// cart route
-Route::controller(Pelanggan\CartController::class)->group(function () {
-    Route::get('cart', 'index')->name('cart.index');
-    Route::post('cart/add/{menu}', 'add')->name('cart.add');
-    Route::post('cart', 'update')->name('cart.update');
-});
+// Cart
+Route::get('cart/{nomor_meja}', [Pelanggan\CartController::class, 'index'])->name('cart.index');
+Route::post('cart/add/{nomor_meja}/{menu}', [Pelanggan\CartController::class, 'add'])->name('cart.add');
+Route::post('cart/{nomor_meja}', [Pelanggan\CartController::class, 'update'])->name('cart.update');
 
-Route::get('/order', [OrderController::class, 'form'])->name('order');
-Route::post('/order', [OrderController::class, 'store'])->name('order');
-Route::get('/order/detail/{id}', [OrderController::class, 'showDetail'])->name('order.detail');
-
-// Simpan pesanan
-Route::post('/pesan', [OrderController::class, 'store'])->name('pelanggan.pesan');
+// Order
+Route::get('/order/{nomor_meja}', [Pelanggan\OrderController::class, 'form'])->name('order');
+Route::post('/order/{nomor_meja}', [Pelanggan\OrderController::class, 'store'])->name('order.store');
+Route::get('/order-detail/{id}', [Pelanggan\OrderController::class, 'showDetail'])->name('order.detail');
 
 Route::get('/payment/{order}', [PaymentController::class, 'payWithXendit'])->name('payment.xendit');
 // Route::post('/xendit/callback', [PaymentController::class, 'handleCallback']);
