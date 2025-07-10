@@ -10,19 +10,20 @@ use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $menus = Menu::with('category')->latest()->paginate(10);
+
+        $query = \App\Models\Menu::with('category');
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nama_menu', 'like', '%' . $request->search . '%');
+        }
+    
+        $menus = $query->latest()->paginate(10);
 
         return view('kasir.menus.index', compact('menus'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $kategoris = Category::all();

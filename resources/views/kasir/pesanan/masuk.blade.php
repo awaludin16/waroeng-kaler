@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="mb-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-        <h4 class="mb-1 text-2xl font-medium">Daftar Pesanan Masuk</h4>
+        <h4 class="mb-1 text-2xl font-medium">Konfirmasi Pesanan</h4>
         <p>Update status pesanan di laman ini</p>
     </div>
 
@@ -35,13 +35,13 @@
                     <th scope="col" class="px-6 py-3 font-medium text-gray-900">Customer</th>
                     <th scope="col" class="px-6 py-3 font-medium text-gray-900">Metode Pembayaran</th>
                     <th scope="col" class="px-6 py-3 font-medium text-gray-900">Total Harga</th>
-                    <th scope="col" class="px-6 py-3 font-medium text-gray-900">Update Pesanan</th>
+                    <th scope="col" class="px-6 py-3 font-medium text-gray-900">Aksi</th>
                 </tr>
             </thead>
             <tbody class="border-t border-gray-100 divide-y divide-gray-100">
                 @forelse ($orders as $item)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-medium text-slate-700 before:content-['#']">{{ $item->id }}</td>
+                        <td class="px-6 py-3 font-medium text-slate-700">ORDR-{{ str_pad($item->id, 4, '0', STR_PAD_LEFT) }}</td>
                         <td class="px-6 py-3">
                             @if ($item->status == 'process')
                                 <span

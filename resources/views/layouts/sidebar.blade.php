@@ -1,68 +1,91 @@
-<div
-    class="fixed top-0 left-0 z-50 w-64 h-full p-4 transition-transform bg-gray-900 rounded-r-xl dark:bg-gray-900 dark:text-white sidebar-menu">
-    <a href="#" class="flex items-center justify-center pt-2 pb-4 border-b border-b-gray-800">
-        <img src="https://placehold.co/32x32" alt="" class="object-cover w-8 h-8 rounded">
-        <span class="ml-3 text-lg font-semibold text-white">Kedai Uniko</span>
+<div class="fixed top-0 left-0 z-50 w-64 h-full p-4 transition-transform bg-white text-gray-800 dark:bg-gray-900 dark:text-white rounded-r-xl sidebar-menu">
+    <a href="#" class="flex items-center justify-center pt-2 pb-4 border-b border-b-gray-200 dark:border-b-gray-800">
+        <img src="{{ asset('assets/img/illustrations/logo.png') }}" alt="Logo" class="object-cover w-8 h-8 rounded">
+        <span class="ml-3 text-lg font-semibold text-gray-800 dark:text-white">Kedai Uniko</span>
     </a>
+
     <ul class="mt-3">
-        <x-tailadmin.navlink href="{{ route('dashboard') }}" icon="ri-home-2-line">
-            Dashboard
-        </x-tailadmin.navlink>
-        <div class="py-2 mt-3 text-sm font-medium border-t border-t-gray-800 text-slate-600">
-            <div class="mt-2">
-                Interface
+        <li class="mt-2 mb-1 group">
+            <a href="{{ route('dashboard') }}"
+               class="flex items-center py-2 px-4 rounded-md text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white {{ request()->routeIs('dashboard') ? 'bg-gray-200 dark:bg-gray-800 font-semibold' : '' }}">
+                <i class="mr-3 text-lg ri-home-line"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        @if(auth()->user() && auth()->user()->role === 'kasir')
+            <div class="py-2 mt-3 text-sm font-medium border-t border-t-gray-200 dark:border-t-gray-800 text-gray-600 dark:text-slate-300">
+                <div class="mt-2">Interface</div>
+
+                <li class="mt-2 mb-1 group">
+                    <a href="#" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md sidebar-dropdown-toggle">
+                        <i class="mr-3 text-lg ri-restaurant-2-line"></i>
+                        <span class="text-sm">Kelola Menu</span>
+                        <i class="ri-arrow-right-s-line ml-auto"></i>
+                    </a>
+                    <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                        <li class="mb-4">
+                            <a href="{{ route('kategori.index') }}" class="text-sm flex items-center text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white before:w-1 before:h-1 before:rounded-full before:bg-gray-400 dark:before:bg-gray-300 before:mr-3">
+                                Kategori
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="{{ route('menus.index') }}" class="text-sm flex items-center text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white before:w-1 before:h-1 before:rounded-full before:bg-gray-400 dark:before:bg-gray-300 before:mr-3">
+                                Menu
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="mt-2 mb-1 group">
+                    <a href="#" class="flex items-center py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md sidebar-dropdown-toggle">
+                        <i class="mr-3 text-lg ri-flashlight-line"></i>
+                        <span class="text-sm">Kelola Pesanan</span>
+                        <i class="ri-arrow-right-s-line ml-auto"></i>
+                    </a>
+                    <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                        <li class="mb-4">
+                            <a href="{{ route('orders.pending') }}" class="text-sm flex items-center text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white before:w-1 before:h-1 before:rounded-full before:bg-gray-400 dark:before:bg-gray-300 before:mr-3">
+                                Pesanan Masuk
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="{{ route('orders.index') }}" class="text-sm flex items-center text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white before:w-1 before:h-1 before:rounded-full before:bg-gray-400 dark:before:bg-gray-300 before:mr-3">
+                                Daftar Pesanan
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="mt-2 mb-1 group">
+                    <a href="{{ route('laporan.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white {{ request()->routeIs('laporan.index') ? 'bg-gray-200 dark:bg-gray-800 font-semibold' : '' }}">
+                        <i class="mr-3 text-lg ri-time-line"></i>
+                        <span>Riwayat Pesanan</span>
+                    </a>
+                </li>
             </div>
-            <li class="mt-2 mb-1 group">
-                <a href="#"
-                    class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-                    <i class="mr-3 text-lg ri-restaurant-2-line"></i>
-                    <span class="text-sm">Kelola Menu</span>
-                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                </a>
-                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
-                        <a href="./register.html"
-                            class="text-gray-300 text-sm flex items-center hover:text-gray-100 before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Kategori</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="{{ route('menus.index') }}"
-                            class="text-gray-300 text-sm flex items-center hover:text-gray-100 before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Menu</a>
-                    </li>
-                </ul>
-            </li>
-            <x-tailadmin.navlink href="{{ route('user.index') }}" icon="ri-user-3-line">
-                Kelola User
-            </x-tailadmin.navlink>
-        </div>
-        <div class="py-2 text-sm font-medium border-t border-t-gray-800 text-slate-600">
-            <div class="mt-2">
-                Services
+        @endif
+
+        @if(auth()->user() && auth()->user()->role === 'owner')
+            <div class="py-2 mt-3 text-sm font-medium border-t border-t-gray-200 dark:border-t-gray-800 text-gray-600 dark:text-slate-300">
+                <div class="mt-2">Manajemen</div>
+
+                <li class="mt-2 mb-1 group">
+                    <a href="{{ route('user.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white {{ request()->routeIs('user.index') ? 'bg-gray-200 dark:bg-gray-800 font-semibold' : '' }}">
+                        <i class="mr-3 text-lg ri-user-3-line"></i>
+                        <span>Kelola User</span>
+                    </a>
+                </li>
+
+                <li class="mt-2 mb-1 group">
+                    <a href="{{ route('laporan.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white {{ request()->routeIs('laporan.index') ? 'bg-gray-200 dark:bg-gray-800 font-semibold' : '' }}">
+                        <i class="mr-3 text-lg ri-time-line"></i>
+                        <span>Riwayat Penjualan</span>
+                    </a>
+                </li>
             </div>
-            <li class="mt-2 mb-1 group">
-                <a href="#"
-                    class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-                    <i class="mr-3 text-lg ri-flashlight-line"></i>
-                    <span class="text-sm">Manage Order</span>
-                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                </a>
-                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
-                        <a href="{{ route('orders.pending') }}"
-                            class="text-gray-300 text-sm flex items-center hover:text-gray-100 before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Order
-                            Masuk</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="{{ route('orders.index') }}"
-                            class="text-gray-300 text-sm flex items-center hover:text-gray-100 before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Orders</a>
-                    </li>
-                </ul>
-            </li>
-            <x-tailadmin.navlink class="mt-2" href="{{ route('laporan.index') }}" icon="ri-file-list-2-line">
-                Laporan
-            </x-tailadmin.navlink>
-        </div>
+        @endif
     </ul>
 </div>
-<div
-    class="fixed top-0 left-0 z-40 w-full h-full dark:bg-gray-900 dark:text-white bg-black/50 md:hidden sidebar-overlay">
-</div>
+
+<div class="fixed top-0 left-0 z-40 w-full h-full bg-black/50 dark:bg-gray-900 md:hidden sidebar-overlay"></div>

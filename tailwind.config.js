@@ -3,6 +3,7 @@ import forms from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: "class", // ✅ ini baris penting untuk mendukung toggle dark mode
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
@@ -14,14 +15,12 @@ export default {
                 sans: ["Poppins", ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
-                "select-arrow":
-                    'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTExLjk5OTcgMTMuMTcxNEwxNi45NDk1IDguMjIxNjhMMTguMzYzNyA5LjYzNTg5TDExLjk5OTcgMTUuOTk5OUw1LjYzNTc0IDkuNjM1ODlMNy4wNDk5NiA4LjIyMTY4TDExLjk5OTcgMTMuMTcxNFoiIGZpbGw9InJnYmEoMTU2LDE2MywxNzUsMSkiPjwvcGF0aD48L3N2Zz4=")',
+                "select-arrow": 'url("data:image/svg+xml;base64,...")',
             },
             boxShadow: {
-                soft: "0 20px 27px 0 rgba(0,0,0,0.05)", // Custom soft shadow
+                soft: "0 20px 27px 0 rgba(0,0,0,0.05)",
             },
         },
     },
-
     plugins: [forms],
 };

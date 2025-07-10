@@ -3,103 +3,195 @@
         <x-tailadmin.navbar :breadcrumbs="[['label' => 'dashboard']]" />
     </x-slot>
 
-    {{-- card stats --}}
-    <!-- cards -->
+    {{-- Card Stats --}}
     <div class="grid mb-12 gap-y-10 gap-x-6 md:grid-cols-2 lg:grid-cols-4">
+        <!-- Total Menu -->
         <div
-            class="relative flex flex-col text-gray-700 bg-white border shadow-soft bg-clip-border rounded-xl border-blue-gray-100">
+            class="relative flex flex-col bg-white border shadow-md text-slate-700 dark:text-white dark:border-gray-700 dark:bg-gray-800 rounded-xl">
             <div
-                class="absolute grid w-12 h-12 mx-4 mt-4 overflow-hidden text-white bg-clip-border rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 shadow-gray-900/20 place-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-                    class="w-6 h-6 text-white">
-                    <path d="M12 7.5a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z"></path>
+                class="absolute grid w-12 h-12 mx-4 mt-4 bg-gradient-to-tr from-indigo-700 to-indigo-500 rounded-xl place-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                        d="M9 2a1 1 0 00-.894.553L7.382 4H5a2 2 0 00-2 2v9a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-2.382l-.724-1.447A1 1 0 0011 2H9z" />
+                    <path d="M8 10h4M8 14h4M8 6h.01" />
+                </svg>
+            </div>
+            <div class="p-4 text-right">
+                <p class="text-sm dark:text-gray-300">Total Menu</p>
+                <h4 class="text-2xl font-semibold">{{ $totalMenu }}</h4>
+            </div>
+            <div class="p-4 border-t dark:border-gray-700">
+                <p class="text-base dark:text-gray-400">Data menu yang tersedia</p>
+            </div>
+        </div>
+
+        <!-- Pesanan Masuk -->
+        <div
+            class="relative flex flex-col bg-white border shadow-md text-slate-700 dark:text-white dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+            <div
+                class="absolute grid w-12 h-12 mx-4 mt-4 bg-gradient-to-tr from-pink-600 to-rose-500 rounded-xl place-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path
+                        d="M16 11V9a4 4 0 00-8 0v2H5a1 1 0 000 2h1v4a1 1 0 001 1h6a1 1 0 001-1v-4h1a1 1 0 000-2h-1zM10 9a2 2 0 114 0v2h-4V9z" />
+                </svg>
+            </div>
+            <div class="p-4 text-right">
+                <p class="text-sm dark:text-gray-300">Pesanan Masuk</p>
+                <h4 class="text-2xl font-semibold">{{ $pesananMasuk }}</h4>
+            </div>
+            <div class="p-4 border-t dark:border-gray-700">
+                <p class="text-base dark:text-gray-400">Jumlah pesanan status <strong>Pending</strong></p>
+            </div>
+        </div>
+
+        <!-- Total Daftar Pesanan -->
+        <div
+            class="relative flex flex-col bg-white border shadow-md text-slate-700 dark:text-white dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+            <div
+                class="absolute grid w-12 h-12 mx-4 mt-4 bg-gradient-to-tr from-cyan-600 to-sky-500 rounded-xl place-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path
+                        d="M9 2a1 1 0 00-.894.553L7.382 4H5a2 2 0 00-2 2v9a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-2.382l-.724-1.447A1 1 0 0011 2H9z" />
+                    <path d="M8 10h4M8 14h4M8 6h.01" />
+                </svg>
+            </div>
+            <div class="p-4 text-right">
+                <p class="text-sm dark:text-gray-300">Total Daftar Pesanan</p>
+                <h4 class="text-2xl font-semibold">{{ $jumlahPesanan }}</h4>
+            </div>
+            <div class="p-4 border-t dark:border-gray-700">
+                <p class="text-base dark:text-gray-400">Semua pesanan tercatat</p>
+            </div>
+        </div>
+
+        <!-- Pendapatan Hari Ini -->
+        <div
+            class="relative flex flex-col bg-white border shadow-md text-slate-700 dark:text-white dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+            <div
+                class="absolute grid w-12 h-12 mx-4 mt-4 bg-gradient-to-tr from-emerald-500 to-green-600 rounded-xl place-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 20 20"
+                    fill="currentColor">
                     <path fill-rule="evenodd"
-                        d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 14.625v-9.75zM8.25 9.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM18.75 9a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V9.75a.75.75 0 00-.75-.75h-.008zM4.5 9.75A.75.75 0 015.25 9h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H5.25a.75.75 0 01-.75-.75V9.75z"
-                        clip-rule="evenodd"></path>
-                    <path
-                        d="M2.25 18a.75.75 0 000 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 00-.75-.75H2.25z">
-                    </path>
+                        d="M10 18a1 1 0 01-1-1v-1.27A4.987 4.987 0 016 11a5 5 0 015-5V4a1 1 0 112 0v1.27A4.987 4.987 0 0114 9a5 5 0 01-5 5v1a1 1 0 01-1 1z"
+                        clip-rule="evenodd" />
                 </svg>
             </div>
             <div class="p-4 text-right">
-                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-600">Today's
-                    Money</p>
-                <h4
-                    class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                    $53k</h4>
+                <p class="text-sm dark:text-gray-300">Pendapatan Hari Ini</p>
+                <h4 class="text-2xl font-semibold">Rp{{ number_format($totalHarian, 0, ',', '.') }}</h4>
             </div>
-            <div class="p-4 border-t border-blue-gray-50">
-                <p class="block font-sans text-base antialiased font-normal leading-relaxed text-blue-gray-600"><strong
-                        class="text-green-500">+55%</strong>&nbsp;than last week</p>
-            </div>
-        </div>
-        <div
-            class="relative flex flex-col text-gray-700 bg-white border shadow-soft bg-clip-border rounded-xl border-blue-gray-100">
-            <div
-                class="absolute grid w-12 h-12 mx-4 mt-4 overflow-hidden text-white bg-clip-border rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 shadow-gray-900/20 place-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-                    class="w-6 h-6 text-white">
-                    <path
-                        d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z">
-                    </path>
-                </svg>
-            </div>
-            <div class="p-4 text-right">
-                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-600">Today's
-                    Users</p>
-                <h4
-                    class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                    2,300</h4>
-            </div>
-            <div class="p-4 border-t border-blue-gray-50">
-                <p class="block font-sans text-base antialiased font-normal leading-relaxed text-blue-gray-600"><strong
-                        class="text-green-500">+3%</strong>&nbsp;than last month</p>
-            </div>
-        </div>
-        <div
-            class="relative flex flex-col text-gray-700 bg-white border shadow-soft bg-clip-border rounded-xl border-blue-gray-100">
-            <div
-                class="absolute grid w-12 h-12 mx-4 mt-4 overflow-hidden text-white bg-clip-border rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 shadow-gray-900/20 place-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-                    class="w-6 h-6 text-white">
-                    <path
-                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z">
-                    </path>
-                </svg>
-            </div>
-            <div class="p-4 text-right">
-                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-600">New Clients
-                </p>
-                <h4
-                    class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                    3,462</h4>
-            </div>
-            <div class="p-4 border-t border-blue-gray-50">
-                <p class="block font-sans text-base antialiased font-normal leading-relaxed text-blue-gray-600"><strong
-                        class="text-red-500">-2%</strong>&nbsp;than yesterday</p>
-            </div>
-        </div>
-        <div
-            class="relative flex flex-col text-gray-700 bg-white border shadow-soft bg-clip-border rounded-xl border-blue-gray-100">
-            <div
-                class="absolute grid w-12 h-12 mx-4 mt-4 overflow-hidden text-white bg-clip-border rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 shadow-gray-900/20 place-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-                    class="w-6 h-6 text-white">
-                    <path
-                        d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75zM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 01-1.875-1.875V8.625zM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 013 19.875v-6.75z">
-                    </path>
-                </svg>
-            </div>
-            <div class="p-4 text-right">
-                <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-600">Sales</p>
-                <h4
-                    class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                    $103,430</h4>
-            </div>
-            <div class="p-4 border-t border-blue-gray-50">
-                <p class="block font-sans text-base antialiased font-normal leading-relaxed text-blue-gray-600"><strong
-                        class="text-green-500">+5%</strong>&nbsp;than yesterday</p>
+            <div class="p-4 border-t dark:border-gray-700">
+                <p class="text-base dark:text-gray-400">Pembayaran yang diterima</p>
             </div>
         </div>
     </div>
+
+    {{-- Grafik Pesanan --}}
+    <div class="w-full mb-12">
+        <div class="p-6 bg-white border border-gray-300 shadow-md dark:bg-gray-900 dark:border-gray-700 rounded-xl">
+            <h5 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white">
+                Grafik Orderan Masuk (7 Hari Terakhir)
+            </h5>
+            <canvas id="orderChart" height="120"></canvas>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('orderChart').getContext('2d');
+
+            const lightTheme = {
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderColor: 'rgb(16, 185, 129)',
+                pointBackgroundColor: 'rgb(16, 185, 129)',
+                ticksColor: '#1e293b',
+                gridColor: '#e2e8f0',
+                legendColor: '#1e293b'
+            };
+
+            const darkTheme = {
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderColor: 'rgb(16, 185, 129)',
+                pointBackgroundColor: 'rgb(16, 185, 129)',
+                ticksColor: '#cbd5e1',
+                gridColor: '#334155',
+                legendColor: '#f1f5f9'
+            };
+
+            function getCurrentTheme() {
+                return document.documentElement.classList.contains('dark') ? darkTheme : lightTheme;
+            }
+
+            function createChart(theme) {
+                return new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: {!! json_encode($labels) !!},
+                        datasets: [{
+                            label: 'Pesanan Masuk',
+                            data: {!! json_encode($data) !!},
+                            fill: true,
+                            backgroundColor: theme.backgroundColor,
+                            borderColor: theme.borderColor,
+                            tension: 0.4,
+                            pointBackgroundColor: theme.pointBackgroundColor,
+                            pointRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1,
+                                    color: theme.ticksColor
+                                },
+                                grid: {
+                                    color: theme.gridColor
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: theme.ticksColor
+                                },
+                                grid: {
+                                    color: theme.gridColor
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: theme.legendColor
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            let currentTheme = getCurrentTheme();
+            let orderChart = createChart(currentTheme);
+
+            // Jika user mengganti mode (misalnya lewat toggle dark mode Tailwind)
+            const observer = new MutationObserver(() => {
+                const newTheme = getCurrentTheme();
+                if (newTheme !== currentTheme) {
+                    orderChart.destroy();
+                    currentTheme = newTheme;
+                    orderChart = createChart(currentTheme);
+                }
+            });
+
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        </script>
+    @endpush
+
 </x-admin-layout>

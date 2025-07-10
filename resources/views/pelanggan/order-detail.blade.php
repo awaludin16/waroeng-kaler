@@ -26,14 +26,8 @@
 
     @if ($order->status == 'pending')
         <div class="p-4 mt-24 mb-4 text-base font-medium rounded text-amber-600 bg-emerald-100">
-            <i class="ri-information-2-line"></i> Pesanan Pending
-            <p class="font-normal leading-5 mt-1.5 text-amber-600">Harap konfirmasi di kasir kami</p>
-        </div>
-    @elseif ($order->status == 'process')
-        <div class="p-4 mt-24 mb-4 text-base font-medium rounded text-emerald-800 bg-emerald-100">
-            <i class="ri-information-2-line"></i> Pesanan Diproses
-            <p class="font-normal leading-5 mt-1.5 text-slate-600">Mohon tunggu, pesanan anda sedang diproses
-            </p>
+            <i class="ri-information-2-line"></i> Pesanan Berhasil Dibuat
+            <p class="font-normal leading-5 mt-1.5 text-amber-600">Harap tunggu makanan kamu datang yaa </p>
         </div>
     @else
         <div class="p-4 mt-24 mb-4 text-base font-medium rounded text-emerald-800 bg-emerald-100">
@@ -52,11 +46,11 @@
             <div class="px-3 pb-3 text-slate-600">
                 <div class="flex items-center justify-between mb-2">
                     <p>Id pesanan</p>
-                    <p class="font-normal text-slate-700">{{ $order->id }}</p>
+                    <p class="font-normal text-slate-700">ORDR-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</p>
                 </div>
                 <div class="flex items-center justify-between mb-2">
                     <p>Meja</p>
-                    <p class="font-normal text-slate-700">{{ $order->table->nomor_meja }}</p>
+                    <p class="font-normal text-slate-700">Meja {{ $order->table->nomor_meja }}</p>
                 </div>
                 <div class="flex items-center justify-between mb-2">
                     <p>Nama pelanggan</p>

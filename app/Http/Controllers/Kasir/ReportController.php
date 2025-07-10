@@ -3,46 +3,57 @@
 namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use App\Models\OrderItem;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\LaporanKategoriExport;
-use Illuminate\Support\Facades\DB;
+use App\Exports\LaporanBulananExport;
 
 class ReportController extends Controller
 {
-    public function laporanKategori(Request $request)
+    public function laporanBulanan(Request $request)
     {
         $bulan = $request->input('bulan') ?? now()->format('Y-m');
-        $bulanCarbon = \Carbon\Carbon::parse($bulan);
-
-        $results = OrderItem::selectRaw("
-            categories.nama_kategori AS kategori_produk,
-            SUM(order_items.jumlah) AS jumlah_terjual,
-            AVG(order_items.subtotal) AS rata_rata_harga,
-            SUM(order_items.jumlah * order_items.subtotal) AS total_penjualan
-        ")
-            ->join('orders', 'order_items.pesanan_id', '=', 'orders.id')
+        $tanggal = Carbon::today();
+        $bulanCarbon = $tanggal->copy(); // tetap dipakai untuk tampilan di Blade
+        
+        $dataHarian = OrderItem::join('orders', 'order_items.pesanan_id', '=', 'orders.id')
             ->join('menus', 'order_items.menu_id', '=', 'menus.id')
-            ->join('categories', 'menus.kategori_id', '=', 'categories.id')
-            ->whereMonth('orders.tanggal_pesanan', $bulanCarbon->month)
-            ->whereYear('orders.tanggal_pesanan', $bulanCarbon->year)
+            ->whereDate('orders.tanggal_pesanan', $tanggal->toDateString())
             ->where('orders.status', 'finished')
-            ->groupBy('kategori_produk')
+            ->selectRaw('menus.nama_menu, SUM(order_items.jumlah) as total_terjual, SUM(order_items.subtotal) as total_penjualan')
+            ->groupBy('menus.nama_menu')      
             ->get();
+        
+        $jumlahTerjual = $dataHarian->sum('total_terjual');
+        $totalPenjualan = $dataHarian->sum('total_penjualan');
+        $menuTerlaris = $dataHarian->sortByDesc('total_terjual')->first()->nama_menu ?? '-';
+        
+        $laporanPerHari[$tanggal->toDateString()] = [
+            'jumlah_terjual' => $jumlahTerjual,
+            'total_penjualan' => $totalPenjualan,
+            'menu_terlaris' => $menuTerlaris,
+            'items' => $dataHarian,
+            'total' => $totalPenjualan,
+        ];
+        
+        $totalKeseluruhan = $totalPenjualan;
+        
 
-        $totalKeseluruhan = $results->sum('total_penjualan');
+        $totalKeseluruhan = array_sum(array_column($laporanPerHari, 'total_penjualan'));
 
-        return view('kasir.laporan.index', compact('results', 'totalKeseluruhan', 'bulanCarbon'));
+        return view('kasir.laporan.index', [
+            'bulanCarbon' => $bulanCarbon,
+            'laporanPerHari' => $laporanPerHari,
+            'totalKeseluruhan' => $totalKeseluruhan,
+            'items' => $dataHarian, // penting untuk view index.blade.php
+            'total' => $totalPenjualan // penting juga
+        ]);
     }
-
-
 
     public function exportExcel(Request $request)
     {
         $bulan = $request->input('bulan') ?? now()->format('Y-m');
-        return Excel::download(new LaporanKategoriExport($bulan), 'laporan-penjualan-kategori.xlsx');
+        return Excel::download(new LaporanBulananExport($bulan), 'laporan-penjualan.xlsx');
     }
 }

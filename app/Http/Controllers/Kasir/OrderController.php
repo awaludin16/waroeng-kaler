@@ -19,36 +19,49 @@ class OrderController extends Controller
         return view('kasir.pesanan.masuk', compact('orders'));
     }
 
-    public function updateStatus(Request $request, Order $order, Payment $payment)
+    public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
             'status' => 'required|in:process,finished',
         ]);
-
-        // Update payment dan order
+    
+        // Update payment status (jika ingin otomatis jadi "paid")
         $order->payment->update([
             'status_pembayaran' => 'paid',
             'waktu_bayar' => now(),
         ]);
-
+    
+        // Update order status
         $order->update([
             'status' => $request->status
         ]);
-
-        return back()->with('success', 'Status pesanan diperbarui.');
+    
+        return back()->with('success', 'Status pesanan berhasil diperbarui.');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with(['table', 'items.menu', 'payment'])->latest()->get();
+        $query = Order::with(['table', 'payment']);
+    
+        if ($request->filled('tanggal')) {
+            $query->whereDate('tanggal_pesanan', $request->tanggal);
+        }
+    
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+    
+        $orders = $query->latest()->paginate(10);
+    
         return view('kasir.pesanan.index', compact('orders'));
     }
+    
 
-    // public function show(Order $pesanan)
-    // {
-    //     $pesanan->load(['items.menu', 'table', 'payment']);
-    //     return view('kasir.pesanan.show', compact('pesanan'));
-    // }
+    public function show(Order $order)
+    {
+        $order->load(['items.menu', 'table', 'payment']);
+        return view('kasir.pesanan.detail', compact('order'));
+    }
 
     public function edit(Order $pesanan)
     {
@@ -74,4 +87,13 @@ class OrderController extends Controller
         $pesanan->delete();
         return back()->with('success', 'Pesanan berhasil dihapus.');
     }
+
+    public function cetak($id)
+    {
+        $order = Order::with(['table', 'items.menu', 'payment'])->findOrFail($id);
+    
+        return view('kasir.pesanan.cetak', compact('order'));
+    }
+    
+    
 }

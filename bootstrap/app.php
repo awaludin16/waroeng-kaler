@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     // Ini untuk middleware global seperti CSRF, TrimStrings, dll
     ->withMiddleware(function ($middleware) {
         $middleware->append([
+            \Illuminate\Http\Middleware\HandleCors::class,
             VerifyCsrfToken::class,
         ]);
     })
