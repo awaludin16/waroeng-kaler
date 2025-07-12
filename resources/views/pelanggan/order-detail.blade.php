@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="flex items-center justify-between px-4 py-2">
-            <h3 class="text-lg font-medium text-amber-700 before:content-['#']">{{ $order->id }}</h3>
+            <h3 class="text-lg font-medium text-amber-700">ORDR-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</h3>
             <span
                 class="{{ $order->status == 'pending' ? 'text-amber-500' : 'text-emerald-500' }}">{{ ucfirst($order->status) }}</span>
         </div>
@@ -26,8 +26,8 @@
 
     @if ($order->status == 'pending')
         <div class="p-4 mt-24 mb-4 text-base font-medium rounded text-amber-600 bg-emerald-100">
-            <i class="ri-information-2-line"></i> Pesanan Berhasil Dibuat
-            <p class="font-normal leading-5 mt-1.5 text-amber-600">Harap tunggu makanan kamu datang yaa </p>
+            <i class="ri-information-2-line"></i> Pesanan Pending
+            <p class="font-normal leading-5 mt-1.5 text-amber-600">Silahkan lakukan pembayaran di kasir.</p>
         </div>
     @else
         <div class="p-4 mt-24 mb-4 text-base font-medium rounded text-emerald-800 bg-emerald-100">

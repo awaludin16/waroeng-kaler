@@ -5,25 +5,25 @@
 
     <div class="max-w-2xl mx-auto my-8">
         @if (session('success'))
-            <div class="mb-4 p-3 text-sm text-green-800 bg-green-100 rounded">
+            <div class="p-3 mb-4 text-sm text-green-800 bg-green-100 rounded">
                 {{ session('success') }}
             </div>
         @endif
 
-        <div class="p-6 bg-white rounded-lg shadow space-y-6">
+        <div class="p-6 space-y-6 bg-white rounded-lg shadow">
             <!-- Header -->
             <div>
                 <h2 class="text-xl font-semibold text-gray-800">
                     Detail Pesanan - ORDR-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}
                 </h2>
-                <p class="text-sm text-gray-500 mt-1">
+                <p class="mt-1 text-sm text-gray-500">
                     Tanggal: {{ \Carbon\Carbon::parse($order->tanggal_pesanan)->format('d F Y') }}
                 </p>
             </div>
 
             <!-- Informasi Umum -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Informasi Umum</h3>
+                <h3 class="mb-2 text-lg font-semibold text-gray-700">Informasi Umum</h3>
                 <ul class="text-sm text-gray-600">
                     <li class="grid grid-cols-3 mb-2">
                         <span class="font-semibold">Nama Pelanggan</span>
@@ -39,10 +39,12 @@
                         <span>
                             @if ($order->status == 'process')
                                 <!-- Form Ubah Status Langsung di Sini -->
-                                <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST" id="ubahStatusForm">
+                                <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST"
+                                    id="ubahStatusForm">
                                     @csrf
                                     @method('PUT')
-                                    <select name="status" id="status" class="form-select text-sm border-gray-300 rounded">
+                                    <select name="status" id="status"
+                                        class="text-sm border-gray-300 rounded form-select">
                                         <option value="process" selected>Diproses</option>
                                         <option value="finished">Selesai</option>
                                     </select>
@@ -57,7 +59,7 @@
 
             <!-- Rincian Menu -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Rincian Menu</h3>
+                <h3 class="mb-2 text-lg font-semibold text-gray-700">Rincian Menu</h3>
                 <table class="w-full text-sm text-left text-gray-600 border-t">
                     <thead>
                         <tr class="border-b">
@@ -80,7 +82,7 @@
 
             <!-- Informasi Pembayaran -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Informasi Pembayaran</h3>
+                <h3 class="mb-2 text-lg font-semibold text-gray-700">Informasi Pembayaran</h3>
                 <ul class="text-sm text-gray-600">
                     <li class="grid grid-cols-3 mb-2">
                         <span class="font-semibold">Metode Pembayaran</span>
@@ -91,16 +93,17 @@
                         <span class="font-semibold">Status Pembayaran</span>
                         <span>
                             @if ($order->payment->status_pembayaran == 'pending')
-                                <span class="text-rose-500 font-semibold">: Unpaid</span>
+                                <span class="font-semibold text-rose-500">: Unpaid</span>
                             @else
-                                <span class="text-emerald-500 font-semibold">: Paid</span>
+                                <span class="font-semibold text-emerald-500">: Paid</span>
                             @endif
                         </span>
                     </li>
                     <li class="grid grid-cols-3 mb-2">
                         <span class="font-semibold">Waktu Transaksi </span>
                         <span>
-                            : {{ $order->payment->waktu_bayar ? \Carbon\Carbon::parse($order->payment->waktu_bayar)->format('d F Y H:i') : '-' }}
+                            :
+                            {{ $order->payment->waktu_bayar ? \Carbon\Carbon::parse($order->payment->waktu_bayar)->format('d F Y H:i') : '-' }}
                         </span>
                     </li>
                     <li class="grid grid-cols-3 mb-2">
@@ -110,9 +113,9 @@
                 </ul>
 
                 <!-- Tombol Aksi -->
-                <div class="flex justify-end gap-2 pt-6 border-t mt-6">
-                    <a href="{{ route('orders.index') }}"
-                       class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300">
+                <div class="flex justify-end gap-2 pt-6 mt-6 border-t">
+                    <a href="{{ url()->previous() }}"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300">
                         ← Kembali
                     </a>
 
@@ -126,7 +129,7 @@
 
                     @if ($order->status == 'finished')
                         <a href="{{ route('orders.cetak', $order->id) }}" target="_blank"
-                           class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">
                             Cetak Struk
                         </a>
                     @endif

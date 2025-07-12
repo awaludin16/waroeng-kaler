@@ -41,7 +41,8 @@
             <tbody class="border-t border-gray-100 divide-y divide-gray-100">
                 @forelse ($orders as $item)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-medium text-slate-700">ORDR-{{ str_pad($item->id, 4, '0', STR_PAD_LEFT) }}</td>
+                        <td class="px-6 py-3 font-medium text-slate-700">
+                            ORDR-{{ str_pad($item->id, 4, '0', STR_PAD_LEFT) }}</td>
                         <td class="px-6 py-3">
                             @if ($item->status == 'process')
                                 <span
@@ -72,23 +73,37 @@
                         </td>
                         <td class="px-6 py-3">Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
                         <td class="px-6 py-3">
-                            <form action="{{ route('orders.updateStatus', $item->id) }}" method="POST"
-                                class="inline-flex gap-2">
-                                @csrf
-                                @method('PUT')
-                                <select name="status" class="text-sm border rounded">
-                                    <option value="process" {{ $item->status == 'process' ? 'selected' : '' }}>Proses
-                                    </option>
-                                    <option value="finished"
-                                        {{ $item->status == 'process' && $item->payment->status_pembayaran == 'paid' ? 'selected' : '' }}>
-                                        Selesai
-                                    </option>
-                                </select>
-                                <button type="submit"
-                                    class="px-3 py-1 text-xs text-white bg-blue-600 rounded hover:bg-blue-700">
-                                    Konfirmasi
-                                </button>
-                            </form>
+                            <div class="flex gap-2">
+                                <a href="{{ route('orders.show', $item->id) }}"
+                                    class="px-3 py-2 text-xs text-blue-700 border border-blue-500 rounded hover:bg-blue-50 hover:text-blue-800 hover:border-blue-700">
+                                    Detail
+                                </a>
+                                @if ($item->status == 'pending')
+                                    <form action="{{ route('orders.updateStatus', $item->id) }}" method="POST"
+                                        class="inline-flex gap-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status" value="process">
+                                        <button type="submit"
+                                            class="px-3 py-2 text-xs text-white bg-blue-600 rounded hover:bg-blue-700">
+                                            Konfirmasi
+                                        </button>
+                                    </form>
+                                @elseif ($item->status == 'process')
+                                    <form id="cetak-form-{{ $item->id }}"
+                                        action="{{ route('orders.updateStatus', $item->id) }}" method="POST"
+                                        target="struk-tab">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status" value="finished">
+                                        <button
+                                            onclick="cetakStruk({{ $item->id }}, '{{ route('orders.cetak', $item->id) }}')"
+                                            class="px-3 py-2 text-xs text-white bg-blue-600 rounded text-nowrap hover:bg-blue-700">
+                                            Cetak Struk
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                 @empty
@@ -98,5 +113,23 @@
                 @endforelse
             </tbody>
         </table>
+
+        <script>
+            function cetakStruk(orderId, cetakUrl) {
+                // Buka tab baru dulu
+                const tab = window.open('', 'struk-tab');
+
+                // Submit form ke updateStatus dengan target tab yang baru dibuka
+                const form = document.getElementById(`cetak-form-${orderId}`);
+                if (form) {
+                    form.submit();
+
+                    // Setelah submit, arahkan tab ke halaman cetak (setelah beberapa milidetik delay agar update status sempat diproses)
+                    setTimeout(() => {
+                        tab.location.href = cetakUrl;
+                    }, 500); // Delay 0.5 detik
+                }
+            }
+        </script>
 
 </x-admin-layout>
